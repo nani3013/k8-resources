@@ -7,6 +7,6 @@ spec:
  - name: first
    image: nginx 
  - name: second
-   image: almalinux
+   image: almalinux:9
  restartPolicy: never
 
