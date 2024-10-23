@@ -1,12 +1,12 @@
 kind: pod
 apiVersion: v1
 metadata:
-  name: expense
+  name: multi-container
 spec:
- containers:
- - name: first
-   image: nginx 
- - name: second
-   image: almalinux:9
-   command: ["sleep", "1000"]
+  containers:
+  - name: first
+    image: nginx 
+  - name: second
+    image: almalinux:9
+    command: ["sleep", "1000"]
 
