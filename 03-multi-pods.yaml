@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: multi-pods
+metadata:
+  name: expense
+spec:
+ containers:
+ - name: first
+   image: nginx 
+ - name: second
+   image: almalinux
+ restartPolicy: never
+
