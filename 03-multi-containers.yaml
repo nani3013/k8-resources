@@ -8,5 +8,5 @@ spec:
    image: nginx 
  - name: second
    image: almalinux:9
- restartPolicy: never
+   command: ["sleep", "1000"]
 
