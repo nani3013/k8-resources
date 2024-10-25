@@ -1,0 +1,16 @@
+kind: service
+apiVersion: v1
+metadata:
+  name: nginx-np
+spec: 
+  type: nodeport
+  selector:
+    projrct: expense
+    module: backend
+    environment: dev
+  ports:
+  - name: nginx-node-port
+    protocol: TCP
+    port: 80 # service port
+    targetPort: 80 # container port
+  
