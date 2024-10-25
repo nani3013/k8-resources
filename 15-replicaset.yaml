@@ -6,20 +6,21 @@ metadata:
     app: nginx
     tier: frontend
 spec:
-# modify repicas according to your case
+  # modify replicas according to your case
   replicas: 3
   selector:
-  # these are used to select the pod to create repicas
-    matchlabels:
+    # these are used to select the pod to create replicas
+    matchLabels:
       tier: frontend
       app: nginx
-  # this is pod defination
-    template:
-      metadata:
-        labels:
-          tier: frontend
-          app: nginx
-      spec:
-        containers:
-        - name: nginx
-          image: nginx
+  # this is pod definition
+  template:
+    metadata:
+      # these labels belongs to pod
+      labels:
+        tier: frontend
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
