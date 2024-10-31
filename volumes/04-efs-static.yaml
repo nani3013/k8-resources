@@ -1,17 +1,18 @@
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: expense-efs
 spec:
-  accessModes:
-  - ReadWriteOnce
   capacity:
     storage: 5Gi
   volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
   storageClassName: ""
   persistentVolumeReclaimPolicy: Retain
   csi:
-    driver: ebs.csi.aws.com
+    driver: efs.csi.aws.com
     volumeHandle: fs-02006be24bcfd519d
 ---
 apiVersion: v1
@@ -19,10 +20,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: expense-efs
 spec:
-  storageClassName: "" # Empty string must be explicitly set otherwise default StorageClass will be set
   volumeName: expense-efs
   accessModes:
     - ReadWriteOnce
+  storageClassName: ""
   resources:
     requests:
       storage: 5Gi
@@ -31,23 +32,20 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: efs-static
-  labels: 
+  labels:
     purpose: efs-static
 spec:
-  nodeSelector:
-    topology.kubernetes.io/zone: us-east-1f
   containers:
   - name: nginx
     image: nginx
-    volumeMounts:
+    volumeMounts: # docker run -v hostpath:contaierpath
     - name: expense-efs
       mountPath: /usr/share/nginx/html
   volumes:
   - name: expense-efs
     persistentVolumeClaim:
       claimName: expense-efs
-
----  
+---
 kind: Service
 apiVersion: v1
 metadata:
@@ -55,12 +53,10 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-     purpose: ebs-static
+    purpose: efs-static
   ports:
   - name: nginx-svc-port
     protocol: TCP
     port: 80 # service port
     targetPort: 80 # container port
-    nodePort: 30007    
-     
- 
+    nodePort: 30007
